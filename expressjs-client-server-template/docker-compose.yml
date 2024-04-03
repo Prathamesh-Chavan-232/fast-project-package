@@ -1,0 +1,44 @@
+version: "3"
+services:
+  client:
+    container_name: project_client
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    ports:
+      - 5173:5173
+    volumes:
+      - ./client:/app
+    networks:
+      - appNetwork
+  server:
+    container_name: project_server
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - 5000:5000
+    volumes:
+      - ./server:/app
+    env_file:
+      - ./server/.env
+    environment:
+      - WORK_ENV=server
+    networks:
+      - appNetwork
+      - serverNetwork
+  postgres_db:
+    image: postgres
+    container_name: project_db
+    restart: always
+    env_file:
+      - ./server/.env
+    ports:
+      - 5432:5432
+    volumes:
+      - ~/db-docker/money-orders-db-data:/var/lib/postgresql/data
+    networks:
+      - serverNetwork
+networks:
+  serverNetwork: {}
+  appNetwork: {}

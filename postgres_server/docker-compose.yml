@@ -1,0 +1,28 @@
+version: "3"
+services:
+  postgres_db:
+    image: postgres
+    container_name: postgres_db
+    restart: always
+    environment:
+      POSTGRES_USER: falconcodes
+      POSTGRES_PASSWORD: 2147483647
+    ports:
+      - 5435:5432
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin4_container
+    restart: always
+    ports:
+      - "8888:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: prathamesh.chavan@noovosoft.com
+      PGADMIN_DEFAULT_PASSWORD: 2147483647
+    volumes:
+      - postgres_data:/var/lib/pgadmin
+
+volumes:
+  postgres_data:
