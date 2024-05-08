@@ -1,5 +1,23 @@
 #!/bin/bash
 
+# On demand docker containers using compose templates
+function foo() {
+   local container=$1
+   local volume=$2
+
+   cat <<EOF > ~/keep-coding/work/new-compose-file.yaml
+   version: "3"
+     services:
+       ${container}:
+     image: nodered/node-red
+     ports:
+       - "3000:1880"
+     volumes:
+       - ./${volume}/:/data
+EOF
+# sed 's/node_red_container/new_docker_container/' template.yml | sed 's/node-red-data/new-volume/';
+}
+
 fastproject() {
     local project_template=$1
     local project_name=$2
